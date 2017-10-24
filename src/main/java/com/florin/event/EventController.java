@@ -15,10 +15,17 @@ public class EventController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    @PostMapping(value = "event/fire")
+    @PostMapping(value = "event/string/fire")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    void sendEvent(@RequestBody String eventSubject) {
-        ApplicationEvent event = new CreateEvent(this, eventSubject);
+    void sendStringEvent(@RequestBody String eventBody) {
+        ApplicationEvent event = new Event(this, eventBody);
+        publisher.publishEvent(event);
+    }
+
+    @PostMapping(value = "event/integer/fire")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    void sendIntegerEvent(@RequestBody Integer eventBody) {
+        ApplicationEvent event = new Event(this, eventBody);
         publisher.publishEvent(event);
     }
 }

@@ -9,8 +9,13 @@ import org.springframework.stereotype.Component;
 public class EventListenerTwo {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @EventListener
-    public void handler(CreateEvent<String> event) {
-        log.info("event handled from class: [" + event.getSource().getClass() + "]. Subject: [" + event.getT() + "].");
+    @EventListener(condition = "#event.body instanceof T(String)")
+    public void handlerString(Event<String> event) {
+        log.info("event handled from class: [" + event.getSource().getClass() + "]. Subject: [" + event.getBody() + "].");
+    }
+
+    @EventListener(condition = "#event.body instanceof T(Integer)")
+    public void handlerInteger(Event<Integer> event) {
+        log.info("event handled from class: [" + event.getSource().getClass() + "]. Subject: [" + event.getBody() + "].");
     }
 }
